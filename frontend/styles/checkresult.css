@@ -1,0 +1,29 @@
+.renderbutton{
+  margin-top: 10px;
+}
+
+.status{
+  display:flex;
+  justify-content: flex-start;
+}
+
+.dataName{
+  width:120px;
+}
+
+.statusMessage{
+  width:400px;
+  margin-left: 20px;
+}
+
+.fa-check,.fa-spin{
+  color:#32CD32;
+}
+
+.fa-spin{
+  font-size:23px;
+}
+
+.fa-exclamation-circle{
+  color:#CD0800;
+}

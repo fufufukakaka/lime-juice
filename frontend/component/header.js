@@ -31,20 +31,6 @@ class Header extends React.Component {
           Lime-Juice
           <i className="fa fa-fw fa-glass" aria-hidden="true"></i>
         </NavbarBrand>
-        <NavbarToggler onClick={this.toggle}/>
-        <Collapse isOpen={this.state.isOpen} navbar="navbar">
-          <Nav className="ml-auto" navbar="navbar">
-            <NavItem>
-              <NavLink href="#input">Input</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#explanation">Explanation</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#datatable">DataTable</NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse>
       </Navbar>
     </div>)
   }
