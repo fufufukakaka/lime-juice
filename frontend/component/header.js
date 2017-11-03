@@ -8,6 +8,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap'
+import "../styles/header.css"
 
 class Header extends React.Component {
   constructor(props) {
@@ -25,7 +26,11 @@ class Header extends React.Component {
   render() {
     return (<div>
       <Navbar id="header" color="faded" light="light" expand="md" header="header">
-        <NavbarBrand href="#header">Lime-Juice</NavbarBrand>
+        <NavbarBrand href="#header">
+          <i className="fa fa-fw fa-glass" aria-hidden="true"></i>
+          Lime-Juice
+          <i className="fa fa-fw fa-glass" aria-hidden="true"></i>
+        </NavbarBrand>
         <NavbarToggler onClick={this.toggle}/>
         <Collapse isOpen={this.state.isOpen} navbar="navbar">
           <Nav className="ml-auto" navbar="navbar">

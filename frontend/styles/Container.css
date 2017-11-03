@@ -1,3 +1,11 @@
+body{
+  font-family: 'Inconsolata', monospace;
+}
+
+h3,h4{
+  margin:10px 0;
+}
+
 .content{
   margin:32px 0;
 }

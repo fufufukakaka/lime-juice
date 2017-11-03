@@ -4,6 +4,7 @@ import configureStore from "../store/configureStore"
 import App from "../container/App"
 import {Provider} from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.css'
+import "../styles/Container.css"
 
 // const store = configureStore()
 
