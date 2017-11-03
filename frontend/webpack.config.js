@@ -7,7 +7,7 @@ module.exports = {
    jsx: "./index.js"
   },
   output: {
-    path: __dirname + "/python-server/static/",
+    path: __dirname + "/static/",
     filename: "bundle.js"
   },
   plugins: [
@@ -22,10 +22,10 @@ module.exports = {
 module: {
     rules: [
      { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: "eslint-loader",enforce:"pre"},
-    { test: /\.(png|jpg|jpeg|gif|svg)$/, loader: 'file?name=[name].[ext]' ,enforce:'post'},
-      { test: /\.(woff|woff2|ttf|eot)$/, loader: 'file?name=[name].[ext]'  ,enforce:'post'},
-      { test: /\.html$/, loader: "file?name=[name].[ext]"  ,enforce:'post'},
-      {
+     { test: /\.(png|jpg|jpeg|gif|svg)$/, loader: 'file?name=[name].[ext]' ,enforce:'post'},
+     { test: /\.(woff|woff2|ttf|eot)$/, loader: 'file?name=[name].[ext]'  ,enforce:'post'},
+     { test: /\.html$/, loader: "file?name=[name].[ext]"  ,enforce:'post'},
+     {
       test: /\.css$/,
       use: [
           'style-loader',
