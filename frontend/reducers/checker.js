@@ -5,7 +5,7 @@ import {sendData,returnResult} from "../actions/checker"
 const initial = {
   checker: {
     //data sending status
-    isSending:false,
+    sendArray:List([false,false,false,false,false,false,false]),
     //each data status(xTrain,xTest,yTrain,yTest,featureNames,labelNames,model)
     //{x}Check...checked or not
     checkArray:List([false,false,false,false,false,false,false]),
@@ -18,13 +18,13 @@ const initial = {
 
 const checker = createReducer({
   [sendData]: (state,payload) => Object.assign({}, state, {
-    isSending: true,
+    sendArray: state.sendArray.set(payload.number,true),
     checkArray:state.checkArray.set(payload.number,false),
     okArray:state.okArray.set(payload.number,false),
     commentArray:state.commentArray.set(payload.number,"")
   }),
   [returnResult]: (state,payload) => Object.assign({}, state, {
-    isSending: false,
+    sendArray: state.sendArray.set(payload.number,false),
     checkArray:state.checkArray.set(payload.number,true),
     okArray:state.okArray.set(payload.number,payload.checkStatus),
     commentArray:state.commentArray.set(payload.number,payload.checkComment)

@@ -18,7 +18,7 @@ class CheckResult extends React.Component {
           : <div className="statusMessage">
             <i className="fa fa-fw fa-exclamation-circle"></i>
             {comment}</div>
-        : <div className="statusMessage">Not yet check. Please input each data files.</div>)
+        : <div className="statusMessage">Not yet check. Please input this data files.</div>)
   }
   renderList() {
     const list = []
@@ -35,7 +35,7 @@ class CheckResult extends React.Component {
     for (let i in listnames) {
       t = <ListGroupItem key={i}>
         <div className="status">
-          <div className="dataName">{listnames[i]}</div>{this.renderStatus(this.props.checker.checkArray.get(i), this.props.checker.okArray.get(i), this.props.checker.commentArray.get(i), this.props.checker.isSending)}
+          <div className="dataName">{listnames[i]}</div>{this.renderStatus(this.props.checker.checkArray.get(i), this.props.checker.okArray.get(i), this.props.checker.commentArray.get(i), this.props.checker.sendArray.get(i))}
         </div>
       </ListGroupItem>
       list.push(t)
