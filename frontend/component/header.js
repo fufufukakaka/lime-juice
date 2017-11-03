@@ -24,7 +24,7 @@ class Header extends React.Component {
   }
   render() {
     return (<div>
-      <Navbar id="header" color="faded" light="light" expand="md">
+      <Navbar id="header" color="faded" light="light" expand="md" header="header">
         <NavbarBrand href="#header">Lime-Juice</NavbarBrand>
         <NavbarToggler onClick={this.toggle}/>
         <Collapse isOpen={this.state.isOpen} navbar="navbar">
