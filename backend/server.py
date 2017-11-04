@@ -4,8 +4,12 @@ from falcon_multipart.middleware import MultipartMiddleware
 
 class Files(object):
     def on_post(self, req, resp):
-        data = req.get_param('data')
-        # only if you need the image data
+        print(req.stream.read().decode("utf-8"))
+        payload = req.stream.read().decode("utf-8")
+        number = payload["number"]
+        print(number)
+        data = payload["data"]
+        print(data)
         raw = data.file.read()
         items = {
             'filetype': str(type(raw))

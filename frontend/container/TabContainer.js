@@ -51,15 +51,13 @@ class TabContainer extends React.Component {
       <TabContent activeTab={this.state.activeTab}>
         <TabPane tabId="1">
           <Row className="section">
-            <Col>
+            <Col xs="6">
               <h3>
                 Input Data
               </h3>
               <DataInput/>
             </Col>
-          </Row>
-          <Row className="section">
-            <Col>
+            <Col xs="6">
               <h3>
                 Data Check Result
               </h3>

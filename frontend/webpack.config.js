@@ -54,8 +54,8 @@ module: {
     contentBase: "./src",
     hot: true,
     proxy: {
-      '/limejuice': {
-        target: 'http://0.0.0.0:5000',
+      '/limejuice/*': {
+        target: 'http://127.0.0.1:8000',
         secure: false
       }
     }
