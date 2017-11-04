@@ -8,7 +8,6 @@ const handleErrors = res => {
       throw Error(err.message)
     })
   }
-
   return json
 }
 
@@ -20,16 +19,14 @@ const superFetchFile = req => {
   if ((req.type === "GET" || req.type === "DELETE") && req.data) {
     reqUrl += `${req.data}/`
   }
-
   if (req.type === "POST") {
     reqObj.headers = reqObj.headers || {}
-    reqObj.headers["Content-Type"] = "multipart/form-data"
     reqObj.headers["Access-Control-Allow-Origin"] = "*"
     reqObj.headers["charset"]="UTF-8"
     reqObj.mode = "same-origin"
-    reqObj.data = req.data
+    reqObj.body = req.data
   }
-
+  console.log(reqObj)
   return fetch(reqUrl, reqObj)
     .then(handleErrors)
     .then(payload => ({ payload }))

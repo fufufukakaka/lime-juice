@@ -9,11 +9,10 @@ import {
 export function* handleSendData() {
   while (true) {
     const action = yield take([`${sendData}`])
-    console.log(action.payload.data.get("data"))
-      const { payload} = yield call(superFetch, {
+      const { payload} = yield call(superFetchFile, {
         url: "limejuice/check_data",
         type: "POST",
-        data: action.payload
+        data: action.payload.data
     }
   )
     yield put(returnResult(Object.assign({}, payload)))

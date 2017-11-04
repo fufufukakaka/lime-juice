@@ -1,18 +1,15 @@
 import falcon
 import json
+import pandas as pd
+import io
 from falcon_multipart.middleware import MultipartMiddleware
 
 class Files(object):
     def on_post(self, req, resp):
-        print(req.stream.read().decode("utf-8"))
-        payload = req.stream.read().decode("utf-8")
-        number = payload["number"]
-        print(number)
-        data = payload["data"]
-        print(data)
-        raw = data.file.read()
+        payload = req.get_param("data")
+        df = pd.read_csv(io.BytesIO(payload.file.read()))
         items = {
-            'filetype': str(type(raw))
+            'df_length': len(df)
         }
         resp.body = json.dumps(items,ensure_ascii=False)
 
