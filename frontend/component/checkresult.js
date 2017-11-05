@@ -43,6 +43,19 @@ class CheckResult extends React.Component {
     }
     return list
   }
+  renderSubmitButton() {
+    let res = true
+    const okarray = this.props.checker.okArray.toJS()
+    for (let i in okarray) {
+      if (!okarray[i]) {
+        res = false
+      }
+    }
+    return (
+      res
+      ? <Button color="success" className="renderbutton">Render Table and Set LIME</Button>
+      : <Button color="info" className="renderbutton">Please input necessary datas</Button>)
+  }
   render() {
     return (<div className="section">
       <Row>
@@ -50,7 +63,7 @@ class CheckResult extends React.Component {
           {this.renderList()}
         </Col>
       </Row>
-      <Button color="success" className="renderbutton">Render Table and Set LIME</Button>
+      {this.renderSubmitButton()}
     </div>)
   }
 }
