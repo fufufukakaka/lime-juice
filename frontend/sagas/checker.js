@@ -9,10 +9,26 @@ import {
 export function* handleSendData() {
   while (true) {
     const action = yield take([`${sendData}`])
+    const listnames = [
+      "X_train",
+      "X_test",
+      "y_test",
+      "Categorical Features",
+      "Categorical Names",
+      "Feature Names",
+      "Label Names",
+      "Trained Model"
+    ]
       const { payload} = yield call(superFetchFile, {
         url: "limejuice/check_data",
         type: "POST",
-        data: action.payload.data
+        data: action.payload.data,
+        custom: {
+          headers: {
+            target: listnames[action.payload.number],
+            number: action.payload.number
+          }
+        }
     }
   )
     yield put(returnResult(Object.assign({}, payload)))

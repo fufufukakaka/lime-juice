@@ -25,11 +25,12 @@ class CheckResult extends React.Component {
     const listnames = [
       "X_train",
       "X_test",
-      "y_train",
       "y_test",
+      "Categorical Features",
+      "Categorical Names",
       "Feature Names",
       "Label Names",
-      "Model"
+      "Trained Model"
     ]
     let t = ""
     for (let i in listnames) {

@@ -5,14 +5,14 @@ import {sendData,returnResult} from "../actions/checker"
 const initial = {
   checker: {
     //data sending status
-    sendArray:List([false,false,false,false,false,false,false]),
+    sendArray:List([false,false,false,false,false,false,false,false]),
     //each data status(xTrain,xTest,yTrain,yTest,featureNames,labelNames,model)
     //{x}Check...checked or not
-    checkArray:List([false,false,false,false,false,false,false]),
+    checkArray:List([false,false,false,false,false,false,false,false]),
     //{x}Ok...pass check or not
-    okArray:List([false,false,false,false,false,false,false]),
+    okArray:List([false,false,false,false,false,false,false,false]),
     //each data check message
-    commentArray:List(["","","","","","",""])
+    commentArray:List(["","","","","","","",""])
   }
 }
 
@@ -26,8 +26,8 @@ const checker = createReducer({
   [returnResult]: (state,payload) => Object.assign({}, state, {
     sendArray: state.sendArray.set(payload.number,false),
     checkArray:state.checkArray.set(payload.number,true),
-    okArray:state.okArray.set(payload.number,payload.checkStatus),
-    commentArray:state.commentArray.set(payload.number,payload.checkComment)
+    okArray:state.okArray.set(payload.number,payload.result),
+    commentArray:state.commentArray.set(payload.number,payload.message)
   })
 }, initial.checker)
 
