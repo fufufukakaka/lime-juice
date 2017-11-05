@@ -12,6 +12,9 @@ import classnames from 'classnames'
 import DataInput from "../component/datainput"
 import CheckResult from "../component/checkresult"
 import Datatable from "../component/datatable"
+import {connect} from "react-redux"
+import PropTypes from "prop-types"
+import {makeData} from "../modules/utils"
 
 class TabContainer extends React.Component {
   constructor(props) {
@@ -26,7 +29,15 @@ class TabContainer extends React.Component {
       this.setState({activeTab: tab})
     }
   }
+  renderTable(juicemixer) {
+    return (
+      juicemixer.isComplete
+      ? <Datatable data={juicemixer.tableData} featureNames={juicemixer.featureNames} accessor={juicemixer.accessor}/>
+      : <p>Please input your data</p>)
+  }
   render() {
+    console.log(makeData())
+    const juicemixer = this.props.juicemixer
     return (<div>
       <Nav tabs="tabs">
         <NavItem>
@@ -78,7 +89,7 @@ class TabContainer extends React.Component {
               <h3>
                 Data Table
               </h3>
-              <Datatable/>
+              {this.renderTable(juicemixer)}
             </Col>
           </Row>
         </TabPane>
@@ -87,4 +98,13 @@ class TabContainer extends React.Component {
   }
 }
 
-export default TabContainer
+function select({juicemixer}) {
+  return {juicemixer}
+}
+
+DataInput.PropTypes = {
+  juicemixer: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
+}
+
+export default connect(select)(TabContainer)

@@ -38,5 +38,17 @@ class Files(object):
             dataset.input_data(target_name,data)
         resp.body = json.dumps(items,ensure_ascii=False)
 
+class Render(object):
+    def on_post(self,req,resp):
+        dataset.create_accessor()
+        dataset.inverse_test_data()
+        data = {
+            "feature_names":list(dataset.feature_names),
+            "accessor":list(dataset.accessor),
+            "tabledata":json.loads(dataset.inversed_x_test.to_json(orient="records"))
+        }
+        resp.body = json.dumps(data,ensure_ascii=False)
+
 api = falcon.API(middleware=[MultipartMiddleware()])
 api.add_route('/limejuice/check_data', Files())
+api.add_route('/limejuice/render_data', Render())

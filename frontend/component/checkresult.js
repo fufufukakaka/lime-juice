@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import {Button, ListGroup, ListGroupItem} from 'reactstrap'
 import React from "react"
 import "../styles/checkresult.css"
+import {startRenderAndTrain} from "../actions/juicemixer"
 
 class CheckResult extends React.Component {
   renderStatus(checked, ok, comment, sending) {
@@ -53,8 +54,14 @@ class CheckResult extends React.Component {
     }
     return (
       res
-      ? <Button color="success" className="renderbutton">Render Table and Set LIME</Button>
+      ? <Button color="success" className="renderbutton" onClick={(e) => {
+          this.submitCall(e)
+        }}>Render Table and Set LIME</Button>
       : <Button color="info" className="renderbutton">Please input necessary datas</Button>)
+  }
+  submitCall(e) {
+    e.preventDefault()
+    this.props.dispatch(startRenderAndTrain())
   }
   render() {
     return (<div className="section">

@@ -6,17 +6,20 @@ import io,sys
 import pandas.core.indexes
 import numpy as np
 sys.modules['pandas.indexes'] = pandas.core.indexes
+from sklearn.preprocessing import LabelEncoder
 
 class Data():
     def __init__(self):
         self.x_train = ""
         self.x_test = ""
         self.y_test = ""
+        self.inversed_x_test = ""
         self.categorical_features = ""
         self.categorical_names = ""
         self.feature_names = ""
         self.label_names = ""
         self.trained_model = ""
+        self.accessor = ""
 
     def input_data(self,target_name,data):
         if target_name == "X_train":
@@ -35,6 +38,24 @@ class Data():
             self.label_names = data
         elif target_name == "Trained Model":
             self.trained_model = data
+
+    def inverse_test_data(self):
+        test = self.x_test
+        categorical_names = self.categorical_names
+        categorical_features = self.categorical_features
+        for i in categorical_features:
+            le = LabelEncoder()
+            le.fit(categorical_names[i])
+            test.iloc[:,i] = le.inverse_transform(test.iloc[:,i])
+        test.columns = self.accessor
+        self.inversed_x_test = test
+
+    def create_accessor(self):
+        feature_names = self.feature_names
+        res = []
+        for i in feature_names:
+            res.append(i.replace(" ","").lower())
+        self.accessor = res
 
 def check_train_test_dtype(df):
     message = "Data check passed"
