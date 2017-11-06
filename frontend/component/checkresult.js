@@ -5,6 +5,7 @@ import {Button, ListGroup, ListGroupItem} from 'reactstrap'
 import React from "react"
 import "../styles/checkresult.css"
 import {startRenderAndTrain} from "../actions/juicemixer"
+import DataHistory from "./dataHistory"
 
 class CheckResult extends React.Component {
   renderStatus(checked, ok, comment, sending) {
@@ -54,10 +55,12 @@ class CheckResult extends React.Component {
     }
     return (
       res
-      ? <Button color="success" className="renderbutton" onClick={(e) => {
-          this.submitCall(e)
-        }}>Render Table and Set LIME</Button>
-      : <Button color="info" className="renderbutton">Please input necessary datas</Button>)
+      ? <div>
+        <Button color="success" className="renderbutton" onClick={(e) => {
+            this.submitCall(e)
+          }}>Render Table and Set LIME</Button><DataHistory alldatachecked={res}/></div>
+      : <div>
+        <Button color="info" className="renderbutton">Please input necessary datas</Button><DataHistory alldatachecked={res}/></div>)
   }
   submitCall(e) {
     e.preventDefault()

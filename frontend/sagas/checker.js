@@ -3,7 +3,8 @@ import superFetch from "../modules/superFetch"
 import superFetchFile from "../modules/superFetchFile"
 import {
   sendData,
-  returnResult
+  returnResult,
+  registerData,registerResult
 } from "../actions/checker"
 
 export function* handleSendData() {
@@ -32,5 +33,22 @@ export function* handleSendData() {
     }
   )
     yield put(returnResult(Object.assign({}, payload)))
+  }
+}
+
+export function* handleRegisterData() {
+  while (true) {
+    const action = yield take([`${registerData}`])
+      const { payload} = yield call(superFetch, {
+        url: "limejuice/register_data",
+        type: "POST",
+        custom: {
+          headers: {
+            registerName:action.payload.registerName
+          }
+        }
+    }
+  )
+    yield put(registerResult(Object.assign({}, payload)))
   }
 }

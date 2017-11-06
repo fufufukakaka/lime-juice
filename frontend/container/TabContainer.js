@@ -36,7 +36,6 @@ class TabContainer extends React.Component {
       : <p>Please input your data</p>)
   }
   render() {
-    console.log(makeData())
     const juicemixer = this.props.juicemixer
     return (<div>
       <Nav tabs="tabs">

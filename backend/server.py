@@ -2,7 +2,7 @@ import falcon
 import json
 import pandas as pd
 import pickle
-import io,sys
+import io,sys,os,traceback
 from falcon_multipart.middleware import MultipartMiddleware
 from utils import Data,check_data_content
 import pandas.core.indexes
@@ -49,6 +49,24 @@ class Render(object):
         }
         resp.body = json.dumps(data,ensure_ascii=False)
 
+class Register(object):
+    def on_post(self,req,resp):
+        dataset_name = req.get_header("registerName")
+        message = "Data Saved"
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        try:
+            path = os.path.join(current_dir,"stored_data",dataset_name+".pickle")
+            pickle.dump(dataset,open(path,"wb"))
+        except:
+            ex, ms, tb = sys.exc_info()
+            print(ms)
+            message = str(ms)
+        data = {
+            "status":message
+        }
+        resp.body = json.dumps(data,ensure_ascii=False)
+
 api = falcon.API(middleware=[MultipartMiddleware()])
 api.add_route('/limejuice/check_data', Files())
 api.add_route('/limejuice/render_data', Render())
+api.add_route('/limejuice/register_data', Register())
