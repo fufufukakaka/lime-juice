@@ -4,10 +4,16 @@ import PropTypes from "prop-types"
 import {Button, ListGroup, ListGroupItem} from 'reactstrap'
 import React from "react"
 import "../styles/checkresult.css"
-import {startRenderAndTrain} from "../actions/juicemixer"
+import {startRenderAndTrain, fetchInitRequest} from "../actions/juicemixer"
 import DataHistory from "./dataHistory"
 
 class CheckResult extends React.Component {
+  componentWillMount() {
+    this.Initialization(this.props)
+  }
+  Initialization(props) {
+    this.props.dispatch(fetchInitRequest())
+  }
   renderStatus(checked, ok, comment, sending) {
     return (
       sending

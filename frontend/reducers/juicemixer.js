@@ -1,6 +1,6 @@
 import { createReducer } from "redux-act"
 import { List } from 'immutable'
-import {startRenderAndTrain,returnRenderResult} from "../actions/juicemixer"
+import {startRenderAndTrain,returnRenderResult,fetchInitRequest,returnInitRequest} from "../actions/juicemixer"
 
 const initial = {
   juicemixer: {
@@ -8,7 +8,8 @@ const initial = {
     isComplete:false,
     tableData:{},
     featureNames:[],
-    accessor:[]
+    accessor:[],
+    datasetArray:[]
   }
 }
 
