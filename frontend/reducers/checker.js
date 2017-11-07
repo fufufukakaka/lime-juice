@@ -1,6 +1,6 @@
 import { createReducer } from "redux-act"
 import { List } from 'immutable'
-import {sendData,returnResult,registerData,registerResult} from "../actions/checker"
+import {sendData,returnResult,registerData,registerResult,fetchInitRequest,returnInitRequest} from "../actions/checker"
 
 const initial = {
   checker: {
@@ -16,7 +16,10 @@ const initial = {
     // each datasets
     dataArray:List(["","","","","","","",""]),
     isRegistering : false,
-    registerComplete: false
+    registerComplete: false,
+    isInitFetching: false,
+    isInitComplete:false,
+    savedDatasets:[]
   }
 }
 
@@ -40,6 +43,15 @@ const checker = createReducer({
   [registerResult]: (state,payload) => Object.assign({}, state, {
     isRegistering: false,
     registerComplete: true
+  }),
+  [fetchInitRequest]:(state)  => Object.assign({}, state, {
+    isFetching: true,
+    isComplete: false
+  }),
+  [returnInitRequest]:(state,payload)  => Object.assign({}, state, {
+    isFetching: false,
+    isComplete: true,
+    savedDatasets: payload.savedDatasets
   })
 }, initial.checker)
 

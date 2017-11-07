@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 import {Button, ListGroup, ListGroupItem} from 'reactstrap'
 import React from "react"
 import "../styles/checkresult.css"
-import {startRenderAndTrain, fetchInitRequest} from "../actions/juicemixer"
+import {startRenderAndTrain, fetchInitRequest} from "../actions/checker"
 import DataHistory from "./dataHistory"
 
 class CheckResult extends React.Component {
@@ -64,9 +64,9 @@ class CheckResult extends React.Component {
       ? <div>
         <Button color="success" className="renderbutton" onClick={(e) => {
             this.submitCall(e)
-          }}>Render Table and Set LIME</Button><DataHistory alldatachecked={res}/></div>
+          }}>Render Table and Set LIME</Button><DataHistory alldatachecked={res} savedDatasets={this.props.checker.savedDatasets}/></div>
       : <div>
-        <Button color="info" className="renderbutton">Please input necessary datas</Button><DataHistory alldatachecked={res}/></div>)
+        <Button color="info" className="renderbutton">Please input necessary datas</Button><DataHistory alldatachecked={res} savedDatasets={this.props.checker.savedDatasets}/></div>)
   }
   submitCall(e) {
     e.preventDefault()

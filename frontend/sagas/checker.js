@@ -4,8 +4,24 @@ import superFetchFile from "../modules/superFetchFile"
 import {
   sendData,
   returnResult,
-  registerData,registerResult
+  registerData,
+  registerResult,
+  fetchInitRequest,
+  returnInitRequest
 } from "../actions/checker"
+
+
+export function* handleInit() {
+  while (true) {
+    const action = yield take([`${fetchInitRequest}`])
+      const { payload} = yield call(superFetch, {
+        url: "limejuice/init_request",
+        type: "GET"
+    }
+  )
+    yield put(returnInitRequest(Object.assign({}, payload)))
+  }
+}
 
 export function* handleSendData() {
   while (true) {

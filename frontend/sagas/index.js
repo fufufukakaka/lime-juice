@@ -3,6 +3,7 @@ import * as checker from "./checker"
 import * as juicemixer from "./juicemixer"
 
 export default function* rootSaga() {
+  yield fork(checker.handleInit)
   yield fork(checker.handleSendData)
   yield fork(checker.handleRegisterData)
   yield fork(juicemixer.handleRender)

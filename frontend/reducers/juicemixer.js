@@ -1,6 +1,6 @@
 import { createReducer } from "redux-act"
 import { List } from 'immutable'
-import {startRenderAndTrain,returnRenderResult,fetchInitRequest,returnInitRequest} from "../actions/juicemixer"
+import {startRenderAndTrain,returnRenderResult} from "../actions/juicemixer"
 
 const initial = {
   juicemixer: {

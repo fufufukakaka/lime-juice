@@ -35,7 +35,7 @@ class DataHistory extends React.Component {
   }
   renderDropDown() {
     const list = []
-    const targets = ["LIME Tabular Example", "FNJudge", "SPI"]
+    const targets = this.props.savedDatasets
     let t = ""
     for (let i in targets) {
       t = <DropdownItem key={i} onClick={(e) => {
@@ -93,6 +93,7 @@ function select({checker}) {
 
 DataHistory.PropTypes = {
   alldatachecked: PropTypes.bool,
+  savedDatasets: PropTypes.array,
   checker: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired
 }

@@ -6,6 +6,8 @@ import io,sys,os,traceback
 from falcon_multipart.middleware import MultipartMiddleware
 from utils import Data,check_data_content
 import pandas.core.indexes
+from os.path import join, relpath,dirname,abspath
+from glob import glob
 import numpy as np
 sys.modules['pandas.indexes'] = pandas.core.indexes
 
@@ -49,13 +51,26 @@ class Render(object):
         }
         resp.body = json.dumps(data,ensure_ascii=False)
 
+class Inits(object):
+    def on_get(self,req,resp):
+        path = 'stored_data'
+        current_dir = dirname(abspath(__file__))
+        files = [relpath(x, path) for x in glob(join(current_dir,path, '*'))]
+        res = []
+        for i in files:
+            res.append(i.split(".")[0])
+        data = {
+            "savedDatasets":res,
+        }
+        resp.body = json.dumps(data,ensure_ascii=False)
+
 class Register(object):
     def on_post(self,req,resp):
         dataset_name = req.get_header("registerName")
         message = "Data Saved"
-        current_dir = os.path.dirname(os.path.abspath(__file__))
+        current_dir = dirname(abspath(__file__))
         try:
-            path = os.path.join(current_dir,"stored_data",dataset_name+".pickle")
+            path = join(current_dir,"stored_data",dataset_name+".pickle")
             pickle.dump(dataset,open(path,"wb"))
         except:
             ex, ms, tb = sys.exc_info()
@@ -67,6 +82,7 @@ class Register(object):
         resp.body = json.dumps(data,ensure_ascii=False)
 
 api = falcon.API(middleware=[MultipartMiddleware()])
+api.add_route('/limejuice/init_request', Inits())
 api.add_route('/limejuice/check_data', Files())
 api.add_route('/limejuice/render_data', Render())
 api.add_route('/limejuice/register_data', Register())
