@@ -13,7 +13,7 @@ import {
   Input,
   Button
 } from 'reactstrap'
-import {registerData} from "../actions/checker"
+import {registerData, retrieveRequest} from "../actions/checker"
 
 class DataHistory extends React.Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class DataHistory extends React.Component {
     }
     return (<Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
       <DropdownToggle caret="caret" color="success">
-        Passed Datasets
+        Saved Datasets
       </DropdownToggle>
       <DropdownMenu>
         {list}
@@ -60,6 +60,10 @@ class DataHistory extends React.Component {
     e.preventDefault()
     this.props.dispatch(registerData({"registerName": this.state.registerName}))
   }
+  retrieveData(e) {
+    e.preventDefault()
+    this.props.dispatch(retrieveRequest({"retrieveName": this.state.name}))
+  }
   render() {
     return (<div className="section">
       <Row>
@@ -68,6 +72,9 @@ class DataHistory extends React.Component {
         </Col>
       </Row>
       <p>{this.state.name}</p>
+      <Button color="info" onClick={(e) => {
+          this.retrieveData(e)
+        }}>Retrieve This Dataset</Button>
       {
         this.props.alldatachecked
           ? <div>

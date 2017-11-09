@@ -4,7 +4,8 @@ import PropTypes from "prop-types"
 import {Button, ListGroup, ListGroupItem} from 'reactstrap'
 import React from "react"
 import "../styles/checkresult.css"
-import {startRenderAndTrain, fetchInitRequest} from "../actions/checker"
+import {fetchInitRequest} from "../actions/checker"
+import {startRenderAndTrain} from "../actions/juicemixer"
 import DataHistory from "./dataHistory"
 
 class CheckResult extends React.Component {

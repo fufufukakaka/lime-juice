@@ -25,7 +25,6 @@ class Datatable extends React.Component {
     return (list)
   }
   render() {
-    console.log(this.state.data)
     const data = this.props.data
     const featureNames = this.props.featureNames
     const accessor = this.props.accessor

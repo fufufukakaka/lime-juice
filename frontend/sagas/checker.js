@@ -7,9 +7,10 @@ import {
   registerData,
   registerResult,
   fetchInitRequest,
-  returnInitRequest
+  returnInitRequest,
+  retrieveRequest,
+  returnRetrieveRequest
 } from "../actions/checker"
-
 
 export function* handleInit() {
   while (true) {
@@ -20,6 +21,23 @@ export function* handleInit() {
     }
   )
     yield put(returnInitRequest(Object.assign({}, payload)))
+  }
+}
+
+export function* handleRetrieve() {
+  while (true) {
+    const action = yield take([`${retrieveRequest}`])
+      const { payload} = yield call(superFetch, {
+        url: "limejuice/retrieve_request",
+        type: "POST",
+        custom: {
+          headers: {
+            target: action.payload.retrieveName
+          }
+        }
+    }
+  )
+    yield put(returnRetrieveRequest(Object.assign({}, payload)))
   }
 }
 

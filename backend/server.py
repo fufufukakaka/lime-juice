@@ -42,6 +42,7 @@ class Files(object):
 
 class Render(object):
     def on_post(self,req,resp):
+        dataset_name = req.get_header("target")
         dataset.create_accessor()
         dataset.inverse_test_data()
         data = {
@@ -57,6 +58,7 @@ class Inits(object):
         current_dir = dirname(abspath(__file__))
         files = [relpath(x, path) for x in glob(join(current_dir,path, '*'))]
         res = []
+        print(dataset.feature_names)
         for i in files:
             res.append(i.split(".")[0])
         data = {
@@ -69,9 +71,18 @@ class Register(object):
         dataset_name = req.get_header("registerName")
         message = "Data Saved"
         current_dir = dirname(abspath(__file__))
+        saved_list = ["X_train","X_test","y_test",
+        "Categorical Features","Categorical Names","Feature Names","Label Names","Trained Model"]
+        object_list = [dataset.x_train,dataset.x_test,dataset.y_test,
+        dataset.categorical_features,dataset.categorical_names,dataset.feature_names,
+        dataset.label_names,dataset.trained_model]
         try:
-            path = join(current_dir,"stored_data",dataset_name+".pickle")
-            pickle.dump(dataset,open(path,"wb"))
+            directory = join(current_dir,"stored_data",dataset_name)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            for i,j in zip(saved_list,object_list):
+                path = join(current_dir,"stored_data",dataset_name,i+".pickle")
+                pickle.dump(j,open(path,"wb"))
         except:
             ex, ms, tb = sys.exc_info()
             print(ms)
@@ -81,8 +92,35 @@ class Register(object):
         }
         resp.body = json.dumps(data,ensure_ascii=False)
 
+class Retrieve(object):
+    def on_post(self,req,resp):
+        dataset_name = req.get_header("target")
+        message = "Data Retrieve"
+        current_dir = dirname(abspath(__file__))
+        saved_list = ["X_train","X_test","y_test",
+        "Categorical Features","Categorical Names","Feature Names","Label Names","Trained Model"]
+        object_list = [dataset.x_train,dataset.x_test,dataset.y_test,
+        dataset.categorical_features,dataset.categorical_names,dataset.feature_names,
+        dataset.label_names,dataset.trained_model]
+        # try:
+        for i,j in zip(saved_list,object_list):
+            path = join(current_dir,"stored_data",dataset_name,i+".pickle")
+            j = pickle.load(open(path,"rb"))
+        # except:
+        #     saved_dataset['feature_names'] = "None"
+        #     ex, ms, tb = sys.exc_info()
+        #     print(ms)
+        #     message = str(ms)
+
+        data = {
+            "status":message,
+            "feature_names":list(dataset.feature_names),
+        }
+        resp.body = json.dumps(data,ensure_ascii=False)
+
 api = falcon.API(middleware=[MultipartMiddleware()])
 api.add_route('/limejuice/init_request', Inits())
+api.add_route('/limejuice/retrieve_request', Retrieve())
 api.add_route('/limejuice/check_data', Files())
 api.add_route('/limejuice/render_data', Render())
 api.add_route('/limejuice/register_data', Register())

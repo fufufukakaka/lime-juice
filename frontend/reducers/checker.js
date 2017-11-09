@@ -1,6 +1,14 @@
 import { createReducer } from "redux-act"
 import { List } from 'immutable'
-import {sendData,returnResult,registerData,registerResult,fetchInitRequest,returnInitRequest} from "../actions/checker"
+import {sendData,
+  returnResult,
+  registerData,
+  registerResult,
+  fetchInitRequest,
+  returnInitRequest,
+  retrieveRequest,
+  returnRetrieveRequest
+} from "../actions/checker"
 
 const initial = {
   checker: {
@@ -19,6 +27,9 @@ const initial = {
     registerComplete: false,
     isInitFetching: false,
     isInitComplete:false,
+    savedDatasets:[],
+    isRetrieve: false,
+    isRetrieveComplete:false,
     savedDatasets:[]
   }
 }
@@ -52,6 +63,18 @@ const checker = createReducer({
     isFetching: false,
     isComplete: true,
     savedDatasets: payload.savedDatasets
+  }),
+  [retrieveRequest]:(state)  => Object.assign({}, state, {
+    isRetrieve: true,
+    isRetrieveComplete: false
+  }),
+  [returnRetrieveRequest]:(state,payload)  => Object.assign({}, state, {
+    isRetrieve: false,
+    isRetrieveComplete: true,
+    sendArray:List([false,false,false,false,false,false,false,false]),
+    checkArray:List([true,true,true,true,true,true,true,true]),
+    okArray:List([true,true,true,true,true,true,true,true]),
+    commentArray:List(["Check Passed","Check Passed","Check Passed","Check Passed","Check Passed","Check Passed","Check Passed","Check Passed"])
   })
 }, initial.checker)
 
