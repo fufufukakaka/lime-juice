@@ -99,13 +99,11 @@ class Retrieve(object):
         current_dir = dirname(abspath(__file__))
         saved_list = ["X_train","X_test","y_test",
         "Categorical Features","Categorical Names","Feature Names","Label Names","Trained Model"]
-        object_list = [dataset.x_train,dataset.x_test,dataset.y_test,
-        dataset.categorical_features,dataset.categorical_names,dataset.feature_names,
-        dataset.label_names,dataset.trained_model]
         # try:
-        for i,j in zip(saved_list,object_list):
+        for i in saved_list:
             path = join(current_dir,"stored_data",dataset_name,i+".pickle")
-            j = pickle.load(open(path,"rb"))
+            t = pickle.load(open(path,"rb"))
+            dataset.input_data(i,t)
         # except:
         #     saved_dataset['feature_names'] = "None"
         #     ex, ms, tb = sys.exc_info()
