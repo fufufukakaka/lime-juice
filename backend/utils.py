@@ -24,6 +24,7 @@ class Data():
         self.accessor = ""
         self.isOneHot = False
         self.prediction_result = ""
+        self.oneHotEncoder = ""
 
     def input_data(self,target_name,data):
         if target_name == "X_train":
@@ -44,7 +45,7 @@ class Data():
             self.trained_model = data
 
     def inverse_and_add_prediction(self):
-        test = self.x_test
+        test = self.x_test.copy()
         ## categorical features inverse
         categorical_names = self.categorical_names
         categorical_features = self.categorical_features
@@ -54,11 +55,14 @@ class Data():
             test.iloc[:,i] = le.inverse_transform(test.iloc[:,i])
         ## add prediction_result
         test[len(test.columns)] = self.prediction_result
+        ## add index
+        test[len(test.columns)] = list(np.arange(len(test)))
         test.columns = self.accessor
         self.inversed_x_test = test
 
     def create_accessor(self):
         self.feature_names = np.append(self.feature_names,"Prediction")
+        self.feature_names = np.append(self.feature_names,"Index")
         feature_names = self.feature_names
         res = []
         for i in feature_names:
@@ -80,6 +84,7 @@ class Data():
             encoder = OneHotEncoder(categorical_features=self.categorical_features)
             alldata = np.concatenate([train,test])
             encoder.fit(alldata)
+            self.oneHotEncoder = encoder
             encoded_test = encoder.transform(test)
             prediction_result = model.predict_proba(encoded_test)
         else:
@@ -93,6 +98,9 @@ class Data():
 class TabularLIME():
     def __init__(self):
         self.explainer = ""
+        self.predict_fn = ""
+        self.exp_instance = ""
+        self.explainHtml = ""
 
     def trainLIME(self,data):
         if not isinstance(data.x_train,np.ndarray):
@@ -103,9 +111,15 @@ class TabularLIME():
         feature_names=data.feature_names, class_names=data.label_names,
         categorical_features=list(data.categorical_features),
         categorical_names=data.categorical_names, kernel_width=3)
+        ## custom predict function
+        self.predict_fn = lambda x: data.trained_model.predict_proba(data.oneHotEncoder.transform(x)).astype(float)
         print("train tabular LIME complete")
-        return
 
+    def doExplanation(self,index,data):
+        test = data.x_test.as_matrix()
+        exp = self.explainer.explain_instance(test[int(index)], self.predict_fn, num_features=2)
+        self.exp_instance = exp
+        self.explainHtml = exp.as_html()
 
 def check_train_test_dtype(df):
     message = "Data check passed"

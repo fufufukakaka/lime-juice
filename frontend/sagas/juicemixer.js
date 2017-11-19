@@ -1,6 +1,10 @@
 import { take, put,call,select } from "redux-saga/effects"
 import superFetch from "../modules/superFetch"
-import {startRenderAndTrain,returnRenderResult} from "../actions/juicemixer"
+import {
+  startRenderAndTrain,
+  returnRenderResult,
+  requestRenderExplanation,
+  returnRenderExplanation} from "../actions/juicemixer"
 
 export function* handleRender() {
   while (true) {
@@ -16,5 +20,22 @@ export function* handleRender() {
     }
   )
     yield put(returnRenderResult(Object.assign({}, payload)))
+  }
+}
+
+export function* handleExplanation(){
+  while (true) {
+    const action = yield take([`${requestRenderExplanation}`])
+      const { payload} = yield call(superFetch, {
+        url: "limejuice/request_explanation",
+        type: "POST",
+        custom: {
+          headers: {
+            targetIndex: action.payload.index
+          }
+        }
+    }
+  )
+    yield put(returnRenderExplanation(Object.assign({}, payload)))
   }
 }

@@ -4,17 +4,17 @@ import PropTypes from "prop-types"
 import ReactTable from "react-table"
 import {makeData} from "../modules/utils"
 import {Button} from 'reactstrap'
+import {connect} from "react-redux"
+import {requestRenderExplanation} from "../actions/juicemixer"
 import "react-table/react-table.css"
 
 class Datatable extends React.Component {
   constructor() {
     super();
-    this.state = {
-      data: makeData()
-    }
   }
   handleExplanation(e, row) {
-    console.log(row)
+    console.log(row.index)
+    this.props.dispatch(requestRenderExplanation({index: row.index}))
   }
   addExplanationButton(column_list) {
     let t = ""
@@ -80,10 +80,16 @@ class Datatable extends React.Component {
   }
 }
 
+function select({juicemixer}) {
+  return {juicemixer}
+}
+
 Datatable.PropTypes = {
   data: PropTypes.object,
   featureNames: PropTypes.array,
-  accessor: PropTypes.array
+  accessor: PropTypes.array,
+  juicemixer: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
-export default Datatable
+export default connect(select)(Datatable)

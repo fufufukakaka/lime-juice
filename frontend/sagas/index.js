@@ -8,4 +8,5 @@ export default function* rootSaga() {
   yield fork(checker.handleSendData)
   yield fork(checker.handleRegisterData)
   yield fork(juicemixer.handleRender)
+  yield fork(juicemixer.handleExplanation)
 }

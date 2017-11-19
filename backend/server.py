@@ -55,6 +55,15 @@ class Render(object):
         }
         resp.body = json.dumps(data,ensure_ascii=False)
 
+class RenderExp(object):
+    def on_post(self,req,resp):
+        index = req.get_header("targetIndex")
+        t_lime.doExplanation(index,dataset)
+        data = {
+            "expHtml":t_lime.explainHtml
+        }
+        resp.body = json.dumps(data,ensure_ascii=False)
+
 class Inits(object):
     def on_get(self,req,resp):
         path = 'stored_data'
@@ -123,4 +132,5 @@ api.add_route('/limejuice/init_request', Inits())
 api.add_route('/limejuice/retrieve_request', Retrieve())
 api.add_route('/limejuice/check_data', Files())
 api.add_route('/limejuice/render_data', Render())
+api.add_route('/limejuice/request_explanation', RenderExp())
 api.add_route('/limejuice/register_data', Register())
