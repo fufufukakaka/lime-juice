@@ -7,6 +7,8 @@ import pandas.core.indexes
 import numpy as np
 sys.modules['pandas.indexes'] = pandas.core.indexes
 from sklearn.preprocessing import LabelEncoder
+import lime
+import lime.lime_tabular
 
 class Data():
     def __init__(self):
@@ -56,6 +58,26 @@ class Data():
         for i in feature_names:
             res.append(i.replace(" ","").lower())
         self.accessor = res
+
+    def addPrediction(self):
+        return
+
+class TabularLIME():
+    def __init__(self):
+        self.explainer = ""
+
+    def trainLIME(self,data):
+        if not isinstance(data.x_train,np.ndarray):
+            train = data.x_train.as_matrix()
+        else:
+            train = data.x_train
+        self.explainer = lime.lime_tabular.LimeTabularExplainer(train,
+        feature_names=data.feature_names, class_names=data.label_names,
+        categorical_features=list(data.categorical_features),
+        categorical_names=data.categorical_names, kernel_width=3)
+        print("train tabular LIME complete")
+        return
+
 
 def check_train_test_dtype(df):
     message = "Data check passed"

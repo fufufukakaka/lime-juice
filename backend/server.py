@@ -4,7 +4,7 @@ import pandas as pd
 import pickle
 import io,sys,os,traceback
 from falcon_multipart.middleware import MultipartMiddleware
-from utils import Data,check_data_content
+from utils import Data,check_data_content,TabularLIME
 import pandas.core.indexes
 from os.path import join, relpath,dirname,abspath
 from glob import glob
@@ -12,6 +12,7 @@ import numpy as np
 sys.modules['pandas.indexes'] = pandas.core.indexes
 
 dataset = Data()
+t_lime = TabularLIME()
 
 class Files(object):
     def on_post(self, req, resp):
@@ -45,6 +46,7 @@ class Render(object):
         dataset_name = req.get_header("target")
         dataset.create_accessor()
         dataset.inverse_test_data()
+        t_lime.trainLIME(dataset)
         data = {
             "feature_names":list(dataset.feature_names),
             "accessor":list(dataset.accessor),
