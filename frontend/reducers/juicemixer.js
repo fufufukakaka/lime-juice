@@ -13,11 +13,14 @@ const initial = {
     tableData:{},
     featureNames:[],
     accessor:[],
-    datasetArray:[],
     isExpFetching: false,
     isExpComplete: false,
     targetIndex: "",
-    expHtml: ""
+    expScore: 0,
+    cofNames : "",
+    cofScores : "",
+    colorArray:"",
+    expProba: ""
   }
 }
 
@@ -42,7 +45,11 @@ const juicemixer = createReducer({
   [returnRenderExplanation] : (state,payload) => Object.assign({}, state, {
     isExpFetching: false,
     isExpComplete: true,
-    expHtml: payload.expHtml
+    expScore: payload.expScore,
+    cofNames : payload.cofNames,
+    cofScores : payload.cofScores,
+    colorArray: payload.colorArray,
+    expProba: payload.expProba
   })
 }, initial.juicemixer)
 

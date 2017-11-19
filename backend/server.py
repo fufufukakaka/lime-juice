@@ -59,8 +59,25 @@ class RenderExp(object):
     def on_post(self,req,resp):
         index = req.get_header("targetIndex")
         t_lime.doExplanation(index,dataset)
+
+        ## change shape
+        cofNames = []
+        cofScores = []
+        colorArray = []
+        for i in t_lime.expList:
+            cofNames.append(i[0])
+            cofScores.append(i[1])
+            if i[1] < 0:
+                colorArray.append('rgba(244,67,54,0.8)')
+            else:
+                colorArray.append('rgba(33,150,243,0.8)')
+
         data = {
-            "expHtml":t_lime.explainHtml
+            "expScore":t_lime.expScore,
+            "expProba":list(t_lime.expProba),
+            "cofNames":cofNames,
+            "cofScores":cofScores,
+            "colorArray":colorArray
         }
         resp.body = json.dumps(data,ensure_ascii=False)
 

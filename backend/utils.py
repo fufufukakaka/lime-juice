@@ -100,7 +100,9 @@ class TabularLIME():
         self.explainer = ""
         self.predict_fn = ""
         self.exp_instance = ""
-        self.explainHtml = ""
+        self.expScore = ""
+        self.expList = ""
+        self.expProba = ""
 
     def trainLIME(self,data):
         if not isinstance(data.x_train,np.ndarray):
@@ -117,9 +119,11 @@ class TabularLIME():
 
     def doExplanation(self,index,data):
         test = data.x_test.as_matrix()
-        exp = self.explainer.explain_instance(test[int(index)], self.predict_fn, num_features=2)
+        exp = self.explainer.explain_instance(test[int(index)], self.predict_fn, num_features=len(data.feature_names))
         self.exp_instance = exp
-        self.explainHtml = exp.as_html()
+        self.expScore = exp.score
+        self.expProba = exp.predict_proba
+        self.expList = exp.as_list()
 
 def check_train_test_dtype(df):
     message = "Data check passed"

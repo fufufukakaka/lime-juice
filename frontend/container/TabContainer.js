@@ -15,6 +15,7 @@ import Datatable from "../component/datatable"
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import {makeData} from "../modules/utils"
+import ExpContainer from "./expContainer"
 
 class TabContainer extends React.Component {
   constructor(props) {
@@ -81,6 +82,7 @@ class TabContainer extends React.Component {
               <h3>
                 Explanation
               </h3>
+              <ExpContainer/>
             </Col>
           </Row>
           <Row className="section">
