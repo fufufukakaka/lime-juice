@@ -2,6 +2,7 @@ import {Row, Col} from 'reactstrap'
 import {connect} from "react-redux"
 import PropTypes from "prop-types"
 import {Button, ListGroup, ListGroupItem} from 'reactstrap'
+import {Form, FormGroup, Input, Label} from 'reactstrap'
 import React from "react"
 import "../styles/checkresult.css"
 import {fetchInitRequest} from "../actions/checker"
@@ -9,6 +10,12 @@ import {startRenderAndTrain} from "../actions/juicemixer"
 import DataHistory from "./dataHistory"
 
 class CheckResult extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      onehotencoding: false
+    };
+  }
   componentWillMount() {
     this.Initialization(this.props)
   }
@@ -63,15 +70,28 @@ class CheckResult extends React.Component {
     return (
       res
       ? <div>
+        <FormGroup check="check">
+          <Label check="check">
+            <Input type="checkbox" onChange={(e) => {
+                this.setOneHot(e, e.target.value)
+              }}/>{' '}
+            Data Should be OnehotEncoding?
+          </Label>
+        </FormGroup>
         <Button color="success" className="renderbutton" onClick={(e) => {
             this.submitCall(e)
           }}>Render Table and Set LIME</Button><DataHistory alldatachecked={res} savedDatasets={this.props.checker.savedDatasets}/></div>
       : <div>
         <Button color="info" className="renderbutton">Please input necessary datas</Button><DataHistory alldatachecked={res} savedDatasets={this.props.checker.savedDatasets}/></div>)
   }
+  setOneHot(e, value) {
+    this.setState({
+      onehotencoding: !this.state.onehotencoding
+    })
+  }
   submitCall(e) {
     e.preventDefault()
-    this.props.dispatch(startRenderAndTrain())
+    this.props.dispatch(startRenderAndTrain({onehot: this.state.onehotencoding}))
   }
   render() {
     return (<div className="section">

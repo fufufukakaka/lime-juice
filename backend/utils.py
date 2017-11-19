@@ -6,7 +6,7 @@ import io,sys
 import pandas.core.indexes
 import numpy as np
 sys.modules['pandas.indexes'] = pandas.core.indexes
-from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import LabelEncoder,OneHotEncoder
 import lime
 import lime.lime_tabular
 
@@ -22,6 +22,8 @@ class Data():
         self.label_names = ""
         self.trained_model = ""
         self.accessor = ""
+        self.isOneHot = False
+        self.prediction_result = ""
 
     def input_data(self,target_name,data):
         if target_name == "X_train":
@@ -41,26 +43,52 @@ class Data():
         elif target_name == "Trained Model":
             self.trained_model = data
 
-    def inverse_test_data(self):
+    def inverse_and_add_prediction(self):
         test = self.x_test
+        ## categorical features inverse
         categorical_names = self.categorical_names
         categorical_features = self.categorical_features
         for i in categorical_features:
             le = LabelEncoder()
             le.fit(categorical_names[i])
             test.iloc[:,i] = le.inverse_transform(test.iloc[:,i])
+        ## add prediction_result
+        test[len(test.columns)] = self.prediction_result
         test.columns = self.accessor
         self.inversed_x_test = test
 
     def create_accessor(self):
+        self.feature_names = np.append(self.feature_names,"Prediction")
         feature_names = self.feature_names
         res = []
         for i in feature_names:
             res.append(i.replace(" ","").lower())
         self.accessor = res
 
-    def addPrediction(self):
-        return
+    def addPrediction(self,isOneHot):
+        self.isOneHot = isOneHot
+        model = self.trained_model
+        if not isinstance(self.x_train,np.ndarray):
+            train = self.x_train.as_matrix()
+        else:
+            train = self.x_train
+        if not isinstance(self.x_test,np.ndarray):
+            test = self.x_test.as_matrix()
+        else:
+            test = self.x_test
+        if isOneHot:
+            encoder = OneHotEncoder(categorical_features=self.categorical_features)
+            alldata = np.concatenate([train,test])
+            encoder.fit(alldata)
+            encoded_test = encoder.transform(test)
+            prediction_result = model.predict_proba(encoded_test)
+        else:
+            ## for example, LightGBM
+            prediction_result = model.predict_proba(test)
+        t_res = []
+        for i in prediction_result:
+            t_res.append(i[0])
+        self.prediction_result = t_res
 
 class TabularLIME():
     def __init__(self):

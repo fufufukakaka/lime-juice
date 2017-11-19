@@ -7,7 +7,12 @@ export function* handleRender() {
     const action = yield take([`${startRenderAndTrain}`])
       const { payload} = yield call(superFetch, {
         url: "limejuice/render_data",
-        type: "POST"
+        type: "POST",
+        custom: {
+          headers: {
+            isOneHot: action.payload.onehotencoding
+          }
+        }
     }
   )
     yield put(returnRenderResult(Object.assign({}, payload)))

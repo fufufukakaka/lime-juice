@@ -43,9 +43,10 @@ class Files(object):
 
 class Render(object):
     def on_post(self,req,resp):
-        dataset_name = req.get_header("target")
+        isOneHot = req.get_header("isOneHot")
+        dataset.addPrediction(isOneHot)
         dataset.create_accessor()
-        dataset.inverse_test_data()
+        dataset.inverse_and_add_prediction()
         t_lime.trainLIME(dataset)
         data = {
             "feature_names":list(dataset.feature_names),
@@ -60,7 +61,6 @@ class Inits(object):
         current_dir = dirname(abspath(__file__))
         files = [relpath(x, path) for x in glob(join(current_dir,path, '*'))]
         res = []
-        print(dataset.feature_names)
         for i in files:
             res.append(i.split(".")[0])
         data = {

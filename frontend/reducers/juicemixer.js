@@ -14,9 +14,10 @@ const initial = {
 }
 
 const juicemixer = createReducer({
-  [startRenderAndTrain]: (state) => Object.assign({}, state, {
+  [startRenderAndTrain]: (state,payload) => Object.assign({}, state, {
     isFetching: true,
-    isComplete: false
+    isComplete: false,
+    isOneHot: payload.onehotencoding
   }),
   [returnRenderResult]: (state,payload) => Object.assign({}, state, {
     isFetching: false,

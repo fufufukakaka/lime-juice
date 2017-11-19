@@ -16,11 +16,37 @@ class Datatable extends React.Component {
     const list = []
     let t = ""
     for (let i in featureNames) {
-      t = {
-        Header: featureNames[i],
-        accessor: accessors[i]
+      if (accessors[i] === "prediction") {
+        t = {
+          Header: featureNames[i],
+          accessor: accessors[i],
+          Cell: row => (<div style={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#dadada',
+              borderRadius: '2px'
+            }}>
+            <div style={{
+                width: `${row.value * 100}%`,
+                height: '100%',
+                backgroundColor: row.value * 100 > 66
+                  ? '#85cc00'
+                  : row.value * 100 > 33
+                    ? '#ffbf00'
+                    : '#ff2e00',
+                borderRadius: '2px',
+                transition: 'all .2s ease-out'
+              }}/>
+          </div>)
+        }
+        list.unshift(t)
+      } else {
+        t = {
+          Header: featureNames[i],
+          accessor: accessors[i]
+        }
+        list.push(t)
       }
-      list.push(t)
     }
     return (list)
   }
