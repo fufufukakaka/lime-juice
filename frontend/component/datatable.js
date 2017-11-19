@@ -3,6 +3,7 @@ import {render} from "react-dom"
 import PropTypes from "prop-types"
 import ReactTable from "react-table"
 import {makeData} from "../modules/utils"
+import {Button} from 'reactstrap'
 import "react-table/react-table.css"
 
 class Datatable extends React.Component {
@@ -12,8 +13,23 @@ class Datatable extends React.Component {
       data: makeData()
     }
   }
+  handleExplanation(e, row) {
+    console.log(row)
+  }
+  addExplanationButton(column_list) {
+    let t = ""
+    t = {
+      Header: "Explain",
+      accessor: "explain",
+      Cell: ({row}) => (<Button size="sm" outline="outline" color="success" onClick={(e) => this.handleExplanation(e, row)}>Explanation</Button>)
+    }
+    column_list.push(t)
+    return (column_list)
+  }
   renderColumns(featureNames, accessors) {
-    const list = []
+    let list = []
+    //add explanation button
+    list = this.addExplanationButton(list)
     let t = ""
     for (let i in featureNames) {
       if (accessors[i] === "prediction") {
